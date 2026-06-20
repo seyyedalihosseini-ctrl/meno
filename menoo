@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🍫 منوی کافه نوتلا بار</title>
+    <style>
+        @import url('https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --nutella: #7B3F00;
+            --nutella-light: #A0522D;
+            --gold: #D4A017;
+            --gold-light: #F0D080;
+            --cream: #FDF5E6;
+            --dark: #3E2723;
+            --bg: #F5E6D3;
+            --shadow: 0 8px 30px rgba(123, 63, 0, 0.12);
+            --radius: 14px;
+        }
+
+        body {
+            font-family: 'Vazir', sans-serif;
+            background: var(--bg);
+            color: var(--dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ===== هدر ===== */
+        .header {
+            background: linear-gradient(145deg, var(--nutella), var(--dark));
+            color: white;
+            padding: 18px 24px 14px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            font-weight: 900;
+            letter-spacing: 1px;
+        }
+
+        .header .sub {
+            font-size: 0.8rem;
+            opacity: 0.9;
+            margin-top: 4px;
+            display: flex;
+            justify-content: center;
+            gap: 10px 20px;
+            flex-wrap: wrap;
+        }
+
+        .header .sub span {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2px 14px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+        }
+
+        /* ===== لایه اصلی ===== */
+        .app {
+            display: flex;
+            flex: 1;
+            gap: 0;
+            height: calc(100vh - 120px);
+            overflow: hidden;
+        }
+
+        /* ===== ستون دسته‌بندی‌ها (سمت راست) ===== */
+        .sidebar {
+            width: 220px;
+            min-width: 220px;
+            background: white;
+            border-left: 2px solid rgba(212, 160, 23, 0.12);
+            overflow-y: auto;
+            padding: 8px 0;
+            height: 100%;
+            box-shadow: 2px 0 12px rgba(0, 0, 0, 0.03);
+        }
+
+        .sidebar::-webkit-scrollbar {
+            width: 3px;
+        }
+        .sidebar::-webkit-scrollbar-thumb {
+            background: var(--gold);
+            border-radius: 10px;
+        }
+
+        .sidebar .cat-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            padding: 13px 18px;
+            border: none;
+            background: transparent;
+            font-family: 'Vazir', sans-serif;
+            font-size: 0.92rem;
+            font-weight: 500;
+            color: var(--dark);
+            cursor: pointer;
+            transition: 0.2s;
+            border-right: 4px solid transparent;
+            text-align: right;
+        }
+
+        .sidebar .cat-btn:hover {
+            background: rgba(212, 160, 23, 0.05);
+        }
+
+        .sidebar .cat-btn.active {
+            background: rgba(212, 160, 23, 0.1);
+            border-right-color: var(--gold);
+            color: var(--nutella);
+            font-weight: 700;
+        }
+
+        .sidebar .cat-btn .icon {
+            font-size: 1.2rem;
+            width: 28px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        /* ===== ستون محصولات ===== */
+        .content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px 20px 80px;
+            background: var(--bg);
+            height: 100%;
+        }
+
+        .content::-webkit-scrollbar {
+            width: 5px;
+        }
+        .content::-webkit-scrollbar-thumb {
+            background: var(--gold);
+            border-radius: 10px;
+        }
+
+        .category-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--nutella);
+            margin-bottom: 14px;
+            padding-bottom: 8px;
+            border-bottom: 3px solid var(--gold);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .category-title .icon {
+            font-size: 1.8rem;
+        }
+
+        .category-items {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        /* ===== آیتم محصول ===== */
+        .menu-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 16px;
+            background: white;
+            border-radius: 10px;
+            margin-bottom: 5px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+            transition: 0.15s;
+            border-right: 3px solid transparent;
+        }
+
+        .menu-item:hover {
+            border-right-color: var(--gold);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+            transform: translateX(-3px);
+        }
+
+        .menu-item .name {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--dark);
+        }
+
+        .menu-item .price {
+            font-weight: 800;
+            color: var(--nutella);
+            font-size: 0.95rem;
+            white-space: nowrap;
+            background: rgba(212, 160, 23, 0.08);
+            padding: 2px 14px;
+            border-radius: 30px;
+        }
+
+        .menu-item .price small {
+            font-weight: 400;
+            font-size: 0.6rem;
+            opacity: 0.5;
+            margin-right: 2px;
+        }
+
+        /* ===== دکمه تماس مستقیم ===== */
+        .call-btn {
+            position: fixed;
+            bottom: 22px;
+            left: 22px;
+            background: #34B7F1;
+            color: white;
+            border: none;
+            padding: 13px 24px;
+            border-radius: 50px;
+            font-family: 'Vazir', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 700;
+            box-shadow: 0 6px 25px rgba(52, 183, 241, 0.4);
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 999;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            text-decoration: none;
+        }
+
+        .call-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 35px rgba(52, 183, 241, 0.5);
+        }
+
+        .call-btn .icon {
+            font-size: 1.4rem;
+        }
+
+        /* ===== فوتر ===== */
+        .footer {
+            text-align: center;
+            padding: 10px;
+            font-size: 0.7rem;
+            color: #bbb;
+            background: white;
+            border-top: 1px solid #eee;
+        }
+
+        .footer .qr-hint {
+            color: var(--nutella-light);
+            font-weight: 500;
+        }
+
+        /* ============================================ */
+        /* ===== موبایل ===== */
+        /* ============================================ */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.3rem;
+            }
+            .header .sub {
+                font-size: 0.65rem;
+                gap: 4px 10px;
+            }
+            .header .sub span {
+                font-size: 0.65rem;
+                padding: 1px 10px;
+            }
+
+            .app {
+                flex-direction: column;
+                height: auto;
+                min-height: calc(100vh - 140px);
+            }
+
+            /* عنوان‌ها در موبایل به بالا میرن */
+            .sidebar {
+                width: 100%;
+                min-width: unset;
+                height: auto;
+                max-height: 200px;
+                overflow-y: auto;
+                border-left: none;
+                border-bottom: 2px solid rgba(212, 160, 23, 0.1);
+                padding: 4px 0;
+                display: flex;
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                gap: 0;
+                background: white;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+            }
+
+            .sidebar::-webkit-scrollbar {
+                height: 2px;
+            }
+            .sidebar::-webkit-scrollbar-thumb {
+                background: var(--gold);
+                border-radius: 10px;
+            }
+
+            .sidebar .cat-btn {
+                padding: 10px 14px;
+                font-size: 0.78rem;
+                border-right: none;
+                border-bottom: 3px solid transparent;
+                white-space: nowrap;
+                flex-shrink: 0;
+                width: auto;
+            }
+
+            .sidebar .cat-btn.active {
+                border-right: none;
+                border-bottom-color: var(--gold);
+                background: rgba(212, 160, 23, 0.06);
+            }
+
+            .sidebar .cat-btn .icon {
+                font-size: 1rem;
+                width: 22px;
+            }
+
+            .content {
+                padding: 12px 14px 80px;
+                height: auto;
+                min-height: 400px;
+            }
+
+            .category-title {
+                font-size: 1.1rem;
+            }
+            .category-title .icon {
+                font-size: 1.3rem;
+            }
+
+            .menu-item {
+                padding: 8px 12px;
+            }
+            .menu-item .name {
+                font-size: 0.85rem;
+            }
+            .menu-item .price {
+                font-size: 0.82rem;
+                padding: 1px 12px;
+            }
+
+            .call-btn {
+                padding: 10px 16px;
+                font-size: 0.8rem;
+                bottom: 14px;
+                left: 14px;
+            }
+            .call-btn .icon {
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .menu-item {
+                flex-wrap: wrap;
+                gap: 3px;
+            }
+            .menu-item .price {
+                margin-right: auto;
+            }
+            .sidebar .cat-btn {
+                font-size: 0.7rem;
+                padding: 8px 10px;
+            }
+            .sidebar .cat-btn .icon {
+                font-size: 0.85rem;
+                width: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== HEADER ===== -->
+    <header class="header">
+        <h1>🍫 کافه نوتلا بار</h1>
+        <div class="sub">
+            <span>🕐 ۶:۰۰ صبح تا ۱۲:۰۰ بامداد</span>
+            <span>📍 خیابان صدوقی، امام حسین، شاه‌آبادی نبش کوچه ۲</span>
+        </div>
+    </header>
+
+    <!-- ===== APP ===== -->
+    <div class="app">
+
+        <!-- ===== سایدبار دسته‌بندی‌ها (سمت راست) ===== -->
+        <nav class="sidebar" id="sidebar">
+            <button class="cat-btn active" data-cat="0">
+                <span class="icon">🍦</span> وافل بستنی
+            </button>
+            <button class="cat-btn" data-cat="1">
+                <span class="icon">⚪</span> وافل توپی
+            </button>
+            <button class="cat-btn" data-cat="2">
+                <span class="icon">🧇</span> وافل مستطیلی
+            </button>
+            <button class="cat-btn" data-cat="3">
+                <span class="icon">🥞</span> کرپ‌ها
+            </button>
+            <button class="cat-btn" data-cat="4">
+                <span class="icon">🥞</span> پنکیک‌ها
+            </button>
+            <button class="cat-btn" data-cat="5">
+                <span class="icon">🍰</span> بستنی و دشر
+            </button>
+            <button class="cat-btn" data-cat="6">
+                <span class="icon">🍡</span> موچی‌ها
+            </button>
+            <button class="cat-btn" data-cat="7">
+                <span class="icon">🥤</span> شیک‌ها
+            </button>
+            <button class="cat-btn" data-cat="8">
+                <span class="icon">🧊</span> نوشیدنی‌های سرد
+            </button>
+            <button class="cat-btn" data-cat="9">
+                <span class="icon">☕</span> نوشیدنی‌های گرم
+            </button>
+        </nav>
+
+        <!-- ===== محتوای محصولات ===== -->
+        <main class="content" id="content">
+
+            <!-- ===== دسته ۰: وافل بستنی ===== -->
+            <div class="category-panel" data-cat="0">
+                <div class="category-title"><span class="icon">🍦</span> وافل بستنی</div>
+                <div class="category-items">
+                    <div class="menu-item"><span class="name">وافل بستنی ساده</span><span class="price">۲۶۵ <small>تومان</small></span></div>
+                    <div class="menu-item"><span class="name">وافل بستنی میوه‌ای</span><span class="price">۲۹۵ <small>تومان</small></span></div>
+                    <div class="menu-item"><span class="name">وافل بستنی بیسکوئیتی</span><span class="price">۲۹۵ <small>تومان</small></span></div>
+                    <div class="menu-item"><span class="name">وافل بستنی اسپیشیال</span><span class="price">۳۳۵ <small>تومان</small></span></div>
+                </div>
+            </div>
+
+            <!-- ===== دسته ۱: وافل توپی ===== -->
+            <div class="category-panel" data-cat="1" style="display:none;">
+                <div class="category-title"><span class="icon">⚪</span> وافل توپی</div>
+                <div class="category-items">
+                    <div class="menu-item"><span class="name">وافل ۳ تایی نوتلا</span><span class="price">۱۶۵ <small>تومان</small></span></div>
+                    <div class="menu-item"><span class="name">وافل میوه‌ای ۶ تایی</span><span class="price">۲۶۵ <small>تومان</small></span></div>
+                    <div class="menu-item"><span class="name">وافل میوه‌ای ۱۲ تایی</span><span class="price">۲۸۵ <small>تومان</small></span></div>
+                    <div class="menu-item"><span class="name">وافل ۱۲ تایی ساده</span><span class="price">۲۳۵ <small>تومان</small></span></div>
+                </div>
+            </div>
+
+            <!-- ===== دسته ۲: وافل مستطیلی ===== -->
+            <div class="category-panel" data-cat="2" style="display:none;">
+                <div class="category-title"><span class="icon">🧇</span> وافل مستطیلی</div>
+                <div class="category-items">
+                    <div class="menu-item"><span class="name">وافل نوتلا</span><span class="price">۲۳۵ <small>تومان</small></span></div>
+                    <div class="menu-item"><span class="name">وافل میوه‌ای نوتلا</span><span class="price">۲۶۵ <small>تومان</small></span></div>
+                    <div class="menu-item"><span class="name">وافل اورئو نوتلا</span><span class="price">۲۸۵ <small>تومان</small></span></div>
+                    <div class="menu-item"><span class="name">وافل فندقی نوتلا</span><span class="price">۳۱۵ <small>تومان</small></span></div>
+                    <div class="menu-item"><span class="name">وافل کره بادام زمینی</span><span class="price">۲۷۵ <small>تومان</small></span></div>
+                    <div class="menu-item"><span class="name">وافل اسپیشیال نوتلا</span><span class="price">۳۳۵ <small>تومان</small></span></div>
+                </div>
+            </div>
+
+            <!-- ===== دسته ۳: کرپ‌ها ===== -->
+            <div class="category-panel" data-cat="3" style="display:none;">
+                <div class="category-title"><span class="icon">🥞</span> کرپ‌ها</div>
+                <div class="category-items">
+                    <div class="menu-item"><span class="name">کرپ نوتلا</span><span class="price">۲۳۵ <small>تومان</small></span></div>
+                    <div class="menu-item"><span class="name">کرپ بستنی نوتلا</span><span class="price">۲۶۵ <small>تومان</small></span></div>
+                    <div class="menu-item"><span class="name">کرپ میوه‌ای نوتلا</span><span class="price">۲۶۵ <small>تومان</small></span></div>
+                    <div class="menu-item"><span class="name">کرپ میوه‌ای بستنی نوتلا</span><span class="price">۲۹۵ <small>تومان</small></span></div>
+                    <div class="menu-item"><span class="name">کرپ اورئو نوتلا</span><span class="price">۲۸۵ <small>تومان</small></span></div>
+                    <div class="menu-item"><span class="name">کرپ براونی نوتلا</span><span class="price">۲۸۵ <small>تومان</small></span></div>
+                    <div class="menu-item"><span class="name">کرپ کره بادام زمینی نوتلا</span><span class="price">۲۷۵ <small>تومان</small></span></div>
+                    <div class="menu-item"><span class="name">پاستاکرپ نوتلا</span><span class="price">۲۹۵ <small>تومان</small></span></div>
+                    <div class="menu-item"><span class="name">پاستا کرپ فروتی نوتلا</span><span class="price">۳۲۵ <small>تومان</small></span></div>
+                    <div class="menu-item"><span class="name">سوشی نوتلا</span><span class="price">۳۱۵ <small>تومان</small></span></div>
+                    <div class="menu-item"><span class="name">کرپ اسپیشیال نوتلا</span><span class="price">۳۳۵ <small>تومان</small></span></div>
+                </div>
+            </div>
+
+            <!-- ===== دسته ۴: پنکیک‌ها ===== -->
+            <div class="category-panel" data-cat="4" style="display:none;">
+                <div class="category-title"><span class="icon">🥞</span> پنکیک‌ها</div>
+                <div class="category-items">
+                    <div class="menu-item"><span class="name">پنکیک نوتلا</span><span class="price">۲۳۵ <small>تومان</small></span></div>
+                    <div class="menu-item"><span class="name">پنکیک بستنی نوتلا</span><span class="price">۲۹۵ <small>تومان</small></span></div>
+                    <div class="menu-item"><span class="name">پنکیک میوه‌ای نوتلا</span><span class="price">۲۶۵ <small>تومان</small></span></div>
+                    <div class="menu-item"><span class="name">پنکیک اورئو</span><span class="price">۲۸۵ <small>تومان</small></span></div>
+                    <div class="menu-item"><span class="name">پنکیک اورئو فندق</span><span class="price">۳۳۵ <small>تومان</small></span></div>
+                    <div class="menu-item"><span class="name">پنکیک کره بادام زمینی</span><span class="price">۲۷۵ <small>تومان</small></span></div>
+                    <div class="menu-item"><span class="name">سوپر پنکیک نوتلایی</span><span class="price">۳۳۵ <small>تومان</small></span></div>
+                </div>
+            </div>
+
+            <!-- ===== دسته ۵: بستنی و دشر ===== -->
+            <div class="category-panel" data-cat="5" style="display:none;">
+                <div class="category-title"><span class="icon">🍰</span> بستنی و دشر</div>
+                <div class="category-items">
+                    <div class="menu-item"><span class="name">بستنی لیوانی نوتلا</span><span class="price">۲۱۵ <small>تومان</small></span></div>
+                    <div class="menu-item"><span class="name">دشر میوه‌ای</span><span class="price">۲۸۵ <small>تومان</small></span></div>
+                    <div class="menu-item"><span class="name">دشر بیسکوییتی</span><span class="price">۲۸۵ <small>تومان</small></span></div>
+                    <div class="menu-item"><span class="name">دشر آجیلی</span><span class="price">۳۰۵ <small>تومان</small></span></div>
+                    <div class="menu-item"><span class="name">سوپر دشر نوتلایی</span><span class="price">۳۱۵ <small>تومان</small></span></div>
+                    <div class="menu-item"><span class="name">هات براونی</span><span class="price">۲۵۵ <small>تومان</small></span></div>
+                    <div class="menu-item"><span class="name">هات براونی فروتی</span><span class="price">۲۷۵ <small>تومان</small></span></div>
+                </div>
+            </div>
+
+            <!-- ===== دسته ۶: موچی‌ها ===== -->
+            <div class="category-panel" data-cat="6" style="display:none;">
+                <div class="category-title"><span class="icon">🍡</span> موچی‌ها</div>
+                <div class="category-items">
+                    <div class="menu-item"><span class="name">موچی نوتلا</span><span class="price">۱۲۵ <small>تومان</small></span></div>
+                    <div class="menu-item"><span class="name">موچی توت فرنگی نوتلا</span><span class="price">۱۳۵ <small>تومان</small></span></div>
+                    <div class="menu-item"><span class="name">موچی موز نوتلا</span><span class="price">۱۳۵ <small>تومان</small></span></div>
+                    <div class="menu-item"><span class="name">موچی بیسکوییت نوتلا</span><span class="price">۱۳۵ <small>تومان</small></span></div>
+                    <div class="menu-item"><span class="name">موچی براونی نوتلا</span><span class="price">۱۳۵ <small>تومان</small></span></div>
+                    <div class="menu-item"><span class="name">موچی نوتلا لوتوس</span><span class="price">۱۳۵ <small>تومان</small></span></div>
+                </div>
+            </div>
+
+            <!-- ===== دسته ۷: شیک‌ها ===== -->
+            <div class="category-panel" data-cat="7" style="display:none;">
+                <div class="category-title"><span class="icon">🥤</span> شیک‌ها</div>
+                <div class="category-items">
+                    <div class="menu-item"><span class="name">شیک نوتلا</span><span class="price">۲۱۵ <small>تومان</small></span></div>
+                    <div class="menu-item"><span class="name">شیک بیسکوئیت نوتلا</span><span class="price">۲۲۵ <small>تومان</small></span></div>
+                    <div class="menu-item"><span class="name">شیک موز نوتلا</span><span class="price">۲۴۵ <small>تومان</small></span></div>
+                    <div class="menu-item"><span class="name">شیک توت فرنگی نوتلا</span><span class="price">۲۴۵ <small>تومان</small></span></div>
+                    <div class="menu-item"><span class="name">شیک کره بادام زمینی</span><span class="price">۲۵۵ <small>تومان</small></span></div>
+                    <div class="menu-item"><span class="name">شیک اورئو</span><span class="price">۲۶۵ <small>تومان</small></span></div>
+                    <div class="menu-item"><span class="name">شیک اسنیکرز</span><span class="price">۲۸۵ <small>تومان</small></span></div>
+                    <div class="menu-item"><span class="name">شیک مارس</span><span class="price">۲۸۵ <small>تومان</small></span></div>
+                    <div class="menu-item"><span class="name">شیک کیت کت</span><span class="price">۲۸۵ <small>تومان</small></span></div>
+                    <div class="menu-item"><span class="name">شیک نسکافه</span><span class="price">۲۶۵ <small>تومان</small></span></div>
+                    <div class="menu-item"><span class="name">شیک لته</span><span class="price">۲۹۵ <small>تومان</small></span></div>
+                    <div class="menu-item"><span class="name">شیک کارامل</span><span class="price">۲۹۵ <small>تومان</small></span></div>
+                </div>
+            </div>
+
+            <!-- ===== دسته ۸: نوشیدنی‌های سرد ===== -->
+            <div class="category-panel" data-cat="8" style="display:none;">
+                <div class="category-title"><span class="icon">🧊</span> نوشیدنی‌های سرد</div>
+                <div class="category-items">
+                    <div class="menu-item"><span class="name">آب پرتغال</span><span class="price">۱۲۵ <small>تومان</small></span></div>
+                    <div class="menu-item"><span class="name">شیرموز</span><span class="price">۱۲۵ <small>تومان</small></span></div>
+                    <div class="menu-item"><span class="name">شیرموز توت فرنگی</span><span class="price">۱۴۵ <small>تومان</small></span></div>
+                    <div class="menu-item"><span class="name">اسموتی پیناکولادا</span><span class="price">۲۷۵ <small>تومان</small></span></div>
+                    <div class="menu-item"><span class="name">اسموتی موهیتو</span><span class="price">۲۷۵ <small>تومان</small></span></div>
+                    <div class="menu-item"><span class="name">اسموتی بلوبری</span><span class="price">۲۷۵ <small>تومان</small></span></div>
+                    <div class="menu-item"><span class="name">آیس لته</span><span class="price">۲۱۵ <small>تومان</small></span></div>
+                    <div class="menu-item"><span class="name">آیس موکا</span><span class="price">۲۲۵ <small>تومان</small></span></div>
+                    <div class="menu-item"><span class="name">آیس آمریکانو</span><span class="price">۱۹۵ <small>تومان</small></span></div>
+                    <div class="menu-item"><span class="name">آیس کارامل ماکیاتو</span><span class="price">۲۴۵ <small>تومان</small></span></div>
+                    <div class="menu-item"><span class="name">آیس نوتلا</span><span class="price">۲۲۵ <small>تومان</small></span></div>
+                </div>
+            </div>
+
+            <!-- ===== دسته ۹: نوشیدنی‌های گرم ===== -->
+            <div class="category-panel" data-cat="9" style="display:none;">
+                <div class="category-title"><span class="icon">☕</span> نوشیدنی‌های گرم</div>
+                <div class="category-items">
+                    <div class="menu-item"><span class="name">اسپرسو سینگل</span><span class="price">۷۵ <small>تومان</small></span></div>
+                    <div class="menu-item"><span class="name">اسپرسو دبل</span><span class="price">۹۰ <small>تومان</small></span></div>
+                    <div class="menu-item"><span class="name">لانگ بلک</span><span class="price">۱۳۵ <small>تومان</small></span></div>
+                    <div class="menu-item"><span class="name">لته</span><span class="price">۱۴۵ <small>تومان</small></span></div>
+                    <div class="menu-item"><span class="name">موکا</span><span class="price">۱۷۹ <small>تومان</small></span></div>
+                    <div class="menu-item"><span class="name">کاپوچینو</span><span class="price">۱۷۵ <small>تومان</small></span></div>
+                    <div class="menu-item"><span class="name">هات چاکلت</span><span class="price">۱۷۵ <small>تومان</small></span></div>
+                    <div class="menu-item"><span class="name">شیر نوتلا</span><span class="price">۱۸۵ <small>تومان</small></span></div>
+                    <div class="menu-item"><span class="name">شیر عسل</span><span class="price">۱۴۵ <small>تومان</small></span></div>
+                    <div class="menu-item"><span class="name">ماسالا</span><span class="price">۱۷۵ <small>تومان</small></span></div>
+                    <div class="menu-item"><span class="name">چای نبات</span><span class="price">۶۵ <small>تومان</small></span></div>
+                    <div class="menu-item"><span class="name">کارامل ماکیاتو</span><span class="price">۱۹۵ <small>تومان</small></span></div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- ===== دکمه تماس مستقیم ===== -->
+    <a href="tel:09032043233" class="call-btn">
+        <span class="icon">📞</span> تماس بگیرید
+    </a>
+
+    <!-- ===== فوتر ===== -->
+    <div class="footer">
+        <span class="qr-hint">📱 برای مشاهده منو، QR Code را اسکن کنید</span>
+        <br>
+        <span style="opacity:0.4;">کافه نوتلا بار © ۱۴۰۴</span>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- ===== جاوااسکریپت ===== -->
+    <!-- ============================================================ -->
+    <script>
+        (function() {
+            'use strict';
+
+            const sidebar = document.getElementById('sidebar');
+            const content = document.getElementById('content');
+            const catBtns = sidebar.querySelectorAll('.cat-btn');
+            const panels = content.querySelectorAll('.category-panel');
+
+            // ===== تابع تغییر دسته =====
+            function switchCategory(index) {
+                catBtns.forEach((btn, i) => {
+                    btn.classList.toggle('active', i === index);
+                });
+                panels.forEach((panel, i) => {
+                    panel.style.display = (i === index) ? 'block' : 'none';
+                });
+            }
+
+            // ===== کلیک روی دکمه‌های دسته =====
+            catBtns.forEach((btn) => {
+                btn.addEventListener('click', function(e) {
+                    const index = parseInt(this.dataset.cat, 10);
+                    if (!isNaN(index)) {
+                        switchCategory(index);
+                    }
+                });
+            });
+
+            // ===== تنظیم اولیه =====
+            switchCategory(0);
+
+            // ===== اسکرول خودکار به بالای محتوا هنگام تغییر دسته (موبایل) =====
+            catBtns.forEach((btn) => {
+                btn.addEventListener('click', function() {
+                    if (window.innerWidth <= 768) {
+                        content.scrollTop = 0;
+                    }
+                });
+            });
+
+            console.log('🍫 منوی نوتلا بار با موفقیت بارگذاری شد!');
+            console.log('📞 شماره تماس: ۰۹۰۳۲۰۴۳۲۳۳');
+        })();
+    </script>
+
+</body>
+</html>
